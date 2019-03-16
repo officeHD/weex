@@ -32,7 +32,7 @@ export default {
             }
         },
         getImagePath(name, type = '', abs = '../../') {
-            return `http://192.168.1.234:8080/mstps/static/trscript/img/app/${name}${type}`
+            return `http://192.168.1.221/img/${name}${type}`
             // if (WXEnvironment.platform === 'Web') {
             //     return `${abs}static/img/${name}${type}`
             // } else if (WXEnvironment.platform === 'android') {

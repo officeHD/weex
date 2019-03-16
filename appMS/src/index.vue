@@ -1,14 +1,6 @@
 <template>
     <div class="wrapper" :style="{height: realHeight}">
-         <keep-alive>
-            <router-view  v-if="$route.meta.keepAlive" ></router-view>
-        </keep-alive>
-       
-        <router-view   v-if="!$route.meta.keepAlive"  >
-            <!-- 这里是不被缓存的视图组件，比如 page3 -->
-        </router-view>
-         
-     
+        <router-view  ></router-view>
     </div>
 </template>
 
@@ -70,7 +62,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #f4f4f4;
+	flex: 1;
 }
-.r-box {
-}
+ 
 </style>

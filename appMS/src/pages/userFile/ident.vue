@@ -1,29 +1,39 @@
 <template>
-    <div class="wrapper"  style="height: screenHeight;">
-        <navBar :title="titleName" />
-        <div>资质认证</div>
-    </div>
+	<div class="wrapper">
+		<navBar :title="titleName" />
+		<text @click="tabTo('identMember')">非保险从业人员认证</text>
+		<text @click="tabTo('identAgent')">保险从业人员认证</text>
+	</div>
 </template>
 <script>
-import navBar from '../components/navBar.vue';
-import { Utils } from 'weex-ui';
-export default {
-    components: {
-        navBar: navBar
-    },
-    data() {
-        return {
-            titleName: '资质认证',
-            screenHeight: Utils.env.getScreenHeight()
-        };
-    },
+	import navBar from "../components/navBar.vue";
+	import {
+		Utils
+	} from "weex-ui";
+	export default {
+		components: {
+			navBar: navBar
+		},
+		data() {
+			return {
+				titleName: "资质认证",
+				screenHeight: Utils.env.getScreenHeight()
+			};
+		},
 
-    methods: {
-        onTabTo(_result) {
-            let _key = _result.data.key || '';
-            this.$router && this.$router.push('/' + _key);
-        }
-    }
-};
+		methods: {
+			tabTo(_key) {
+				this.$router && this.$router.push("/" + _key);
+			}
+		}
+	};
 </script>
-<style scoped></style>
+<style scoped>
+	.wrapper {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+</style>

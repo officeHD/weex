@@ -26,7 +26,7 @@
             <div class="flexStart"> <text class="itemType">请选择</text><text class="iconfont seticon">&#xe639;</text></div>
         </div>
 
-        <div class="betweenFlex bb mt20">
+        <div class="betweenFlex bb mt20"  @click="tabTo('ident')">
             <text class="listName">资质认证</text>
             <div class="flexStart"> <text class="itemType error">去认证</text><text class="iconfont seticon">&#xe639;</text></div>
         </div>

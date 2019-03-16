@@ -62,7 +62,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 81);
+/******/ 	return __webpack_require__(__webpack_require__.s = 86);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -74,14 +74,14 @@ var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(4)
+__vue_styles__.push(__webpack_require__(5)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(5)
+__vue_exports__ = __webpack_require__(6)
 
 /* template */
-var __vue_template__ = __webpack_require__(6)
+var __vue_template__ = __webpack_require__(7)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -93,7 +93,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "F:\\weex\\appMS(1)\\src\\pages\\components\\navBar.vue"
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\components\\navBar.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 __vue_options__._scopeId = "data-v-4e18e048"
@@ -112,7 +112,7 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -158,7 +158,7 @@ exports.default = {
             var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
             var abs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '../../';
 
-            return 'http://192.168.1.234:8080/mstps/static/trscript/img/app/' + name + type;
+            return 'http://192.168.1.221/img/' + name + type;
             // if (WXEnvironment.platform === 'Web') {
             //     return `${abs}static/img/${name}${type}`
             // } else if (WXEnvironment.platform === 'android') {
@@ -266,64 +266,86 @@ exports.default = {
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.host = host;
 exports.https = https;
 exports.timeAgo = timeAgo;
 exports.unescape = unescape;
 function host(url) {
-  if (!url) return '';
-  var host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-  var parts = host.split('.').slice(-3);
-  if (parts[0] === 'www') parts.shift();
-  return parts.join('.');
+	if (!url) return '';
+	var host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+	var parts = host.split('.').slice(-3);
+	if (parts[0] === 'www') parts.shift();
+	return parts.join('.');
 }
 
 function https(url) {
-  var env = weex.config.env || WXEnvironment;
-  if (env.platform === 'iOS' && typeof url === 'string') {
-    return url.replace(/^http\:/, 'https:');
-  }
-  return url;
+	var env = weex.config.env || WXEnvironment;
+	if (env.platform === 'iOS' && typeof url === 'string') {
+		return url.replace(/^http\:/, 'https:');
+	}
+	return url;
 }
 
-function timeAgo(time) {
-  var between = Date.now() / 1000 - Number(time);
-  if (between < 3600) {
-    return pluralize(~~(between / 60), ' minute');
-  } else if (between < 86400) {
-    return pluralize(~~(between / 3600), ' hour');
-  } else {
-    return pluralize(~~(between / 86400), ' day');
-  }
+function timeAgo(dateTimeStamp) {
+	var minute = 1000 * 60;
+	var hour = minute * 60;
+	var day = hour * 24;
+	var halfamonth = day * 15;
+	var month = day * 30;
+	var year = month * 12;
+	var now = new Date().getTime();
+	var diffValue = now - getDateTimeStamp(dateTimeStamp);
+	if (diffValue < 0) {
+		return;
+	}
+	var yearC = diffValue / year;
+	var monthC = diffValue / month;
+	var weekC = diffValue / (7 * day);
+	var dayC = diffValue / day;
+	var hourC = diffValue / hour;
+	var minC = diffValue / minute;
+	var result = "";
+	if (yearC >= 1) {
+		result = "" + parseInt(yearC) + "年前";
+	} else if (monthC >= 1) {
+		result = "" + parseInt(monthC) + "月前";
+	} else if (weekC >= 1) {
+		result = "" + parseInt(weekC) + "周前";
+	} else if (dayC >= 1) {
+		result = "" + parseInt(dayC) + "天前";
+	} else if (hourC >= 1) {
+		result = "" + parseInt(hourC) + "小时前";
+	} else if (minC >= 1) {
+		result = "" + parseInt(minC) + "分钟前";
+	} else result = "刚刚";
+	return result;
 }
-
-function pluralize(time, label) {
-  if (time === 1) {
-    return time + label;
-  }
-  return time + label + 's';
+// 转换标准时间为时间戳
+function getDateTimeStamp(dateStr) {
+	return Date.parse(dateStr.replace(/-/gi, "/"));
 }
 
 function unescape(text) {
-  var res = text || '';[['<p>', '\n'], ['&amp;', '&'], ['&amp;', '&'], ['&apos;', '\''], ['&#x27;', '\''], ['&#x2F;', '/'], ['&#39;', '\''], ['&#47;', '/'], ['&lt;', '<'], ['&gt;', '>'], ['&nbsp;', ' '], ['&quot;', '"']].forEach(function (pair) {
-    res = res.replace(new RegExp(pair[0], 'ig'), pair[1]);
-  });
+	var res = text || '';
+	[['<p>', '\n'], ['&amp;', '&'], ['&amp;', '&'], ['&apos;', '\''], ['&#x27;', '\''], ['&#x2F;', '/'], ['&#39;', '\''], ['&#47;', '/'], ['&lt;', '<'], ['&gt;', '>'], ['&nbsp;', ' '], ['&quot;', '"']].forEach(function (pair) {
+		res = res.replace(new RegExp(pair[0], 'ig'), pair[1]);
+	});
 
-  return res;
+	return res;
 }
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2950,7 +2972,7 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -3008,7 +3030,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3044,7 +3066,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 6:
+/***/ 7:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3073,25 +3095,25 @@ module.exports.render._withStripped = true
 
 /***/ }),
 
-/***/ 81:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _vueRouter = __webpack_require__(3);
+var _vueRouter = __webpack_require__(4);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _index = __webpack_require__(1);
+var _index = __webpack_require__(2);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _filters = __webpack_require__(2);
+var _filters = __webpack_require__(3);
 
 var filters = _interopRequireWildcard(_filters);
 
-var _claims = __webpack_require__(82);
+var _claims = __webpack_require__(87);
 
 var _claims2 = _interopRequireDefault(_claims);
 
@@ -3125,21 +3147,21 @@ router.push('/');
 
 /***/ }),
 
-/***/ 82:
+/***/ 87:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(83)
+__vue_styles__.push(__webpack_require__(88)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(84)
+__vue_exports__ = __webpack_require__(89)
 
 /* template */
-var __vue_template__ = __webpack_require__(85)
+var __vue_template__ = __webpack_require__(90)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -3151,7 +3173,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "F:\\weex\\appMS(1)\\src\\pages\\claims.vue"
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\claims.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 __vue_options__._scopeId = "data-v-896e2456"
@@ -3170,7 +3192,7 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 83:
+/***/ 88:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -3187,7 +3209,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 84:
+/***/ 89:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3224,7 +3246,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 85:
+/***/ 90:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

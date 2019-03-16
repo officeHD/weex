@@ -62,7 +62,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 140);
+/******/ 	return __webpack_require__(__webpack_require__.s = 156);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -74,14 +74,14 @@ var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(4)
+__vue_styles__.push(__webpack_require__(5)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(5)
+__vue_exports__ = __webpack_require__(6)
 
 /* template */
-var __vue_template__ = __webpack_require__(6)
+var __vue_template__ = __webpack_require__(7)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -93,7 +93,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "F:\\weex\\appMS(1)\\src\\pages\\components\\navBar.vue"
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\components\\navBar.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 __vue_options__._scopeId = "data-v-4e18e048"
@@ -112,7 +112,174 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 1:
+/***/ 156:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _vueRouter = __webpack_require__(4);
+
+var _vueRouter2 = _interopRequireDefault(_vueRouter);
+
+var _index = __webpack_require__(2);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _filters = __webpack_require__(3);
+
+var filters = _interopRequireWildcard(_filters);
+
+var _team = __webpack_require__(157);
+
+var _team2 = _interopRequireDefault(_team);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//团队
+
+Object.keys(filters).forEach(function (key) {
+    Vue.filter(key, filters[key]);
+});
+
+var router = new _vueRouter2.default({
+    routes: [
+        // {
+        //     path:  '/setting',
+        //     name: 'SettingPage',
+        //     component: SettingPage
+        // },
+
+    ]
+});
+
+// register global mixins.
+Vue.mixin(_index2.default);
+
+/* eslint-disable no-new */
+new Vue(Vue.util.extend({ el: '#root', router: router }, _team2.default));
+router.push('/');
+
+/***/ }),
+
+/***/ 157:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(158)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(159)
+
+/* template */
+var __vue_template__ = __webpack_require__(160)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\team.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-2853d20a"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 158:
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start"
+  }
+}
+
+/***/ }),
+
+/***/ 159:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: {
+    navBar: _navBar2.default
+  },
+  data: function data() {
+    return {
+      imagePath: "",
+      titleName: "团队"
+    };
+  },
+
+  created: function created() {}
+}; //
+//
+//
+//
+//
+//
+
+/***/ }),
+
+/***/ 160:
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName,
+      "MainPage": true
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -158,7 +325,7 @@ exports.default = {
             var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
             var abs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '../../';
 
-            return 'http://192.168.1.234:8080/mstps/static/trscript/img/app/' + name + type;
+            return 'http://192.168.1.221/img/' + name + type;
             // if (WXEnvironment.platform === 'Web') {
             //     return `${abs}static/img/${name}${type}`
             // } else if (WXEnvironment.platform === 'android') {
@@ -266,231 +433,86 @@ exports.default = {
 
 /***/ }),
 
-/***/ 140:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _vueRouter = __webpack_require__(3);
-
-var _vueRouter2 = _interopRequireDefault(_vueRouter);
-
-var _index = __webpack_require__(1);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _filters = __webpack_require__(2);
-
-var filters = _interopRequireWildcard(_filters);
-
-var _team = __webpack_require__(141);
-
-var _team2 = _interopRequireDefault(_team);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//团队
-
-Object.keys(filters).forEach(function (key) {
-    Vue.filter(key, filters[key]);
-});
-
-var router = new _vueRouter2.default({
-    routes: [
-        // {
-        //     path:  '/setting',
-        //     name: 'SettingPage',
-        //     component: SettingPage
-        // },
-
-    ]
-});
-
-// register global mixins.
-Vue.mixin(_index2.default);
-
-/* eslint-disable no-new */
-new Vue(Vue.util.extend({ el: '#root', router: router }, _team2.default));
-router.push('/');
-
-/***/ }),
-
-/***/ 141:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(142)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(143)
-
-/* template */
-var __vue_template__ = __webpack_require__(144)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\weex\\appMS(1)\\src\\pages\\team.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-2853d20a"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 142:
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-
-/***/ 143:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      imagePath: "",
-      titleName: "团队"
-    };
-  },
-
-  created: function created() {}
-}; //
-//
-//
-//
-//
-//
-
-/***/ }),
-
-/***/ 144:
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName,
-      "MainPage": true
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.host = host;
 exports.https = https;
 exports.timeAgo = timeAgo;
 exports.unescape = unescape;
 function host(url) {
-  if (!url) return '';
-  var host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-  var parts = host.split('.').slice(-3);
-  if (parts[0] === 'www') parts.shift();
-  return parts.join('.');
+	if (!url) return '';
+	var host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+	var parts = host.split('.').slice(-3);
+	if (parts[0] === 'www') parts.shift();
+	return parts.join('.');
 }
 
 function https(url) {
-  var env = weex.config.env || WXEnvironment;
-  if (env.platform === 'iOS' && typeof url === 'string') {
-    return url.replace(/^http\:/, 'https:');
-  }
-  return url;
+	var env = weex.config.env || WXEnvironment;
+	if (env.platform === 'iOS' && typeof url === 'string') {
+		return url.replace(/^http\:/, 'https:');
+	}
+	return url;
 }
 
-function timeAgo(time) {
-  var between = Date.now() / 1000 - Number(time);
-  if (between < 3600) {
-    return pluralize(~~(between / 60), ' minute');
-  } else if (between < 86400) {
-    return pluralize(~~(between / 3600), ' hour');
-  } else {
-    return pluralize(~~(between / 86400), ' day');
-  }
+function timeAgo(dateTimeStamp) {
+	var minute = 1000 * 60;
+	var hour = minute * 60;
+	var day = hour * 24;
+	var halfamonth = day * 15;
+	var month = day * 30;
+	var year = month * 12;
+	var now = new Date().getTime();
+	var diffValue = now - getDateTimeStamp(dateTimeStamp);
+	if (diffValue < 0) {
+		return;
+	}
+	var yearC = diffValue / year;
+	var monthC = diffValue / month;
+	var weekC = diffValue / (7 * day);
+	var dayC = diffValue / day;
+	var hourC = diffValue / hour;
+	var minC = diffValue / minute;
+	var result = "";
+	if (yearC >= 1) {
+		result = "" + parseInt(yearC) + "年前";
+	} else if (monthC >= 1) {
+		result = "" + parseInt(monthC) + "月前";
+	} else if (weekC >= 1) {
+		result = "" + parseInt(weekC) + "周前";
+	} else if (dayC >= 1) {
+		result = "" + parseInt(dayC) + "天前";
+	} else if (hourC >= 1) {
+		result = "" + parseInt(hourC) + "小时前";
+	} else if (minC >= 1) {
+		result = "" + parseInt(minC) + "分钟前";
+	} else result = "刚刚";
+	return result;
 }
-
-function pluralize(time, label) {
-  if (time === 1) {
-    return time + label;
-  }
-  return time + label + 's';
+// 转换标准时间为时间戳
+function getDateTimeStamp(dateStr) {
+	return Date.parse(dateStr.replace(/-/gi, "/"));
 }
 
 function unescape(text) {
-  var res = text || '';[['<p>', '\n'], ['&amp;', '&'], ['&amp;', '&'], ['&apos;', '\''], ['&#x27;', '\''], ['&#x2F;', '/'], ['&#39;', '\''], ['&#47;', '/'], ['&lt;', '<'], ['&gt;', '>'], ['&nbsp;', ' '], ['&quot;', '"']].forEach(function (pair) {
-    res = res.replace(new RegExp(pair[0], 'ig'), pair[1]);
-  });
+	var res = text || '';
+	[['<p>', '\n'], ['&amp;', '&'], ['&amp;', '&'], ['&apos;', '\''], ['&#x27;', '\''], ['&#x2F;', '/'], ['&#39;', '\''], ['&#47;', '/'], ['&lt;', '<'], ['&gt;', '>'], ['&nbsp;', ' '], ['&quot;', '"']].forEach(function (pair) {
+		res = res.replace(new RegExp(pair[0], 'ig'), pair[1]);
+	});
 
-  return res;
+	return res;
 }
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3117,7 +3139,7 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -3175,7 +3197,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3211,7 +3233,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 6:
+/***/ 7:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

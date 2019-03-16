@@ -42,7 +42,7 @@
       <div class="listContent">
          <div class="mesTitle">
            <text class="namespan">赞和收藏</text>
-           <text class="namespan">2天前</text>
+           <text class="namespan">{{'2019-1-20'|timeAgo }}</text>
          </div>
          <text class="namespan">相关信息 </text>
        </div>
@@ -53,7 +53,7 @@
        <div class="listContent">
         <div class="mesTitle">
            <text class="namespan">评论和回复</text>
-           <text class="namespan"> 2天前</text>
+           <text class="namespan">{{'2019-1-22'|timeAgo }}</text>
          </div>
          <text> </text>
        </div>
@@ -63,7 +63,7 @@
        <div class="listContent">
          <div class="mesTitle">
            <text class="namespan">我的关注</text>
-           <text class="namespan"> 2天前</text>
+           <text class="namespan"> {{'2018-3-15'|timeAgo }}</text>
          </div>
          <text> </text>
        </div>
