@@ -1,25 +1,24 @@
 <template>
-		<div class="wrapper">
-	<scroller class="scroller"  >
-		 
-		 <image class="registerTop" resize="contain" :src="registerTop"></image>
-		<div class="inputItem">
-			<input class="input" placeholder="手机号" maxlength="11" placeholder-color="#fff" @input="changeUserName"></input>
-		</div>
-		<div class="inputItem">
+	<div class="wrapper">
+		<scroller class="scroller">
+			<image class="registerTop" resize="contain" :src="registerTop"></image>
+			<div class="inputItem">
+				<input class="input" placeholder="手机号" maxlength="11" placeholder-color="#fff" @input="changePhoneNum"></input>
+			</div>
+			<div class="inputItem">
 
-			<input class="input" placeholder="验证码" maxlength="6" placeholder-color="#fff" @input="changePassWord"></input>
-			 <image class="messageImg" resize="contain" :src="messageImg"></image>
-		</div>
-		<div class="inputItem">
+				<input class="input" placeholder="验证码" maxlength="6" placeholder-color="#fff" @input="changeCode"></input>
+				<image class="messageImg" resize="contain" :src="messageImg" @click="getCodeImg"></image>
+			</div>
+			<div class="inputItem">
 
-			<input class="input" placeholder="短信验证码" maxlength="6" placeholder-color="#fff" @input="changePassWord"></input>
-			<text class="sendMesBtn">发送验证码</text>
-		</div>
-		<text class="loginBtn">立即注册</text>
-		<text class="registerNum"  >44595人已经注册</text>
+				<input class="input" placeholder="短信验证码" maxlength="6" placeholder-color="#fff" @input="changeMessage"></input>
+				<text class="sendMesBtn" @click="getMessage">发送验证码</text>
+			</div>
+			<text class="loginBtn" @click="actionRegister">立即注册</text>
+			<text class="registerNum">44595人已经注册</text>
 
-	</scroller>
+		</scroller>
 	</div>
 </template>
 
@@ -29,7 +28,8 @@
 		WxcCheckboxList,
 		Utils
 	} from 'weex-ui'
-	 
+
+	var modal = weex.requireModule('modal');
 	export default {
 		components: {
 			WxcCheckbox,
@@ -37,47 +37,115 @@
 		},
 		data() {
 			return {
+				phoneNum: "",
 				messageImg: "",
 				registerTop: "",
+				isRightPhone: false,
+				isRightCode: false, //图片验证码是否正确
+				codeImg: "", //用户输入的图片Code
+				lineCode: "", //获取的图片code
+				messageCode: "", //用户输入的短信code
+				lineMessage: "", //用户获取的短信code
+				isRightMessage: false, //短信验证码是否正确
 			}
 		},
 		created: function() {
-			this.realHeight=Utils.env.getScreenHeight();
-			this.messageImg = "http://192.168.1.221/img/message.jpg";
+			
 			this.registerTop = "http://192.168.1.221/img/registerTop.jpg";
+			//获取图片验证码
+			this.getCodeImg();
+			
 		},
-		 
+
 		methods: {
-			changeUserName(e) {
-				console.log(e)
+			changePhoneNum(e) {
+				// 输入手机号并验证
+				this.phoneNum = e.value;
+
 			},
 			wxcCheckBoxItemChecked(e) {
 				console.log(e)
+			},
+			getCodeImg() {
+				//获取验证码图片 
+				this.lineCode = "123456";
+				this.messageImg = "http://192.168.1.221/img/message.jpg";
+			},
+			changeCode(e) {
+				//输入图片验证码 同时校验是否正确
+				this.codeImg = e.value;
+				if (this.codeImg == this.lineCode) {
+					this.isRightCode = true;
+				}
+			},
+			getMessage() {
+				//判断图片验证码是否正确，正确就获取短信验证码
+				if (this.isRightCode) {
+					this.lineMessage = "123456"
+				} else {
+					modal.toast({
+						message: '图片验证码错误',
+						duration: 0.8
+					});
+				}
+
+			},
+			changeMessage(e) {
+				// 输入短信验证码同时校验是否正确
+				this.messageCode = e.value;
+				if (this.messageCode == this.lineMessage) {
+					this.isRightMessage = true;
+				}
+			},
+			actionRegister() {
+				// 注册
+				// 判断手机号码格式、图片验证码和短信验证码是否输入 并校验
+				if (this.isRightPhone && this.isRightCode && this.isRightMessage) {
+					this.reset("/user")
+				} else {
+					if (!this.isRightPhone) {
+						modal.toast({
+							message: '请输入正确的手机号',
+							duration: 0.8
+						});
+					} else if (!this.isRightCode) {
+						modal.toast({
+							message: '请输入正确的图片验证码',
+							duration: 0.8
+						});
+					} else if (!this.isRightMessage) {
+						modal.toast({
+							message: '短信验证码错误',
+							duration: 0.8
+						});
+					}
+				}
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	
 	.wrapper {
-		 flex: 1;
+		flex: 1;
 		width: 750px;
 		display: flex;
 		justify-content: flex-star;
 		align-items: center;
-		padding:30px 50px;
+		padding: 30px 50px;
 		background-color: #F95651;
 	}
-	.scroller{
+
+	.scroller {
 		position: fixed;
 		left: 0;
 		top: 0;
 		right: 0;
 		bottom: 0;
-			display: flex;
-			align-items: center;
+		display: flex;
+		align-items: center;
 	}
+
 	.register {
 		position: fixed;
 		font-size: 30px;
@@ -102,16 +170,18 @@
 	.readP {
 		font-size: 28px;
 	}
-	.registerTop{
+
+	.registerTop {
 		width: 750px;
 		height: 808px;
-		 
-		 
+
+
 	}
-	.messageImg{
+
+	.messageImg {
 		width: 150px;
 		height: 58px;
-		margin-right:25px;
+		margin-right: 25px;
 	}
 
 	.inputItem {
@@ -154,12 +224,12 @@
 		height: 100px;
 		border-radius: 20px;
 		width: 500px;
-		background-image:linear-gradient(to right, #FF8DAE, #FFA360);
+		background-image: linear-gradient(to right, #FF8DAE, #FFA360);
 		text-align: center;
-		line-height:100px;
+		line-height: 100px;
 		color: #FFFFFF;
 		margin-top: 40px;
-		font-size:40px;
+		font-size: 40px;
 		margin-bottom: 40px;
 
 	}
@@ -172,11 +242,12 @@
 		align-items: center;
 
 	}
-	.registerNum{
+
+	.registerNum {
 		text-align: center;
 		font-size: 26px;
 		color: #F8EF6E;
 		margin-bottom: 30px;
-		 
+
 	}
 </style>

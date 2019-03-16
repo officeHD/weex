@@ -7818,10 +7818,6 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _utils = __webpack_require__(1);
-
-var _utils2 = _interopRequireDefault(_utils);
-
 var _wxcCheckboxList = __webpack_require__(208);
 
 var _wxcCheckboxList2 = _interopRequireDefault(_wxcCheckboxList);
@@ -7832,6 +7828,31 @@ var _wxcCheckbox2 = _interopRequireDefault(_wxcCheckbox);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var modal = weex.requireModule('modal'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 exports.default = {
 	components: {
 		WxcCheckbox: _wxcCheckbox2.default,
@@ -7839,50 +7860,90 @@ exports.default = {
 	},
 	data: function data() {
 		return {
+			phoneNum: "",
 			messageImg: "",
-			registerTop: ""
+			registerTop: "",
+			isRightPhone: false,
+			isRightCode: false, //图片验证码是否正确
+			codeImg: "", //用户输入的图片Code
+			lineCode: "", //获取的图片code
+			messageCode: "", //用户输入的短信code
+			lineMessage: "", //用户获取的短信code
+			isRightMessage: false //短信验证码是否正确
 		};
 	},
 
 	created: function created() {
-		this.realHeight = _utils2.default.env.getScreenHeight();
-		this.messageImg = "http://192.168.1.221/img/message.jpg";
+
 		this.registerTop = "http://192.168.1.221/img/registerTop.jpg";
+		//获取图片验证码
+		this.getCodeImg();
 	},
 
 	methods: {
-		changeUserName: function changeUserName(e) {
-			console.log(e);
+		changePhoneNum: function changePhoneNum(e) {
+			// 输入手机号并验证
+			this.phoneNum = e.value;
 		},
 		wxcCheckBoxItemChecked: function wxcCheckBoxItemChecked(e) {
 			console.log(e);
+		},
+		getCodeImg: function getCodeImg() {
+			//获取验证码图片 
+			this.lineCode = "123456";
+			this.messageImg = "http://192.168.1.221/img/message.jpg";
+		},
+		changeCode: function changeCode(e) {
+			//输入图片验证码 同时校验是否正确
+			this.codeImg = e.value;
+			if (this.codeImg == this.lineCode) {
+				this.isRightCode = true;
+			}
+		},
+		getMessage: function getMessage() {
+			//判断图片验证码是否正确，正确就获取短信验证码
+			if (this.isRightCode) {
+				this.lineMessage = "123456";
+			} else {
+				modal.toast({
+					message: '图片验证码错误',
+					duration: 0.8
+				});
+			}
+		},
+		changeMessage: function changeMessage(e) {
+			// 输入短信验证码同时校验是否正确
+			this.messageCode = e.value;
+			if (this.messageCode == this.lineMessage) {
+				this.isRightMessage = true;
+			}
+		},
+		actionRegister: function actionRegister() {
+			// 注册
+			// 判断手机号码格式、图片验证码和短信验证码是否输入 并校验
+			if (this.isRightPhone && this.isRightCode && this.isRightMessage) {
+				this.reset("/user");
+			} else {
+				if (!this.isRightPhone) {
+					modal.toast({
+						message: '请输入正确的手机号',
+						duration: 0.8
+					});
+				} else if (!this.isRightCode) {
+					modal.toast({
+						message: '请输入正确的图片验证码',
+						duration: 0.8
+					});
+				} else if (!this.isRightMessage) {
+					modal.toast({
+						message: '短信验证码错误',
+						duration: 0.8
+					});
+				}
+			}
 		}
 	}
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 /* 69 */
@@ -7909,7 +7970,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholderColor": "#fff"
     },
     on: {
-      "input": _vm.changeUserName
+      "input": _vm.changePhoneNum
     }
   })]), _c('div', {
     staticClass: ["inputItem"]
@@ -7921,13 +7982,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholderColor": "#fff"
     },
     on: {
-      "input": _vm.changePassWord
+      "input": _vm.changeCode
     }
   }), _c('image', {
     staticClass: ["messageImg"],
     attrs: {
       "resize": "contain",
       "src": _vm.messageImg
+    },
+    on: {
+      "click": _vm.getCodeImg
     }
   })]), _c('div', {
     staticClass: ["inputItem"]
@@ -7939,12 +8003,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholderColor": "#fff"
     },
     on: {
-      "input": _vm.changePassWord
+      "input": _vm.changeMessage
     }
   }), _c('text', {
-    staticClass: ["sendMesBtn"]
+    staticClass: ["sendMesBtn"],
+    on: {
+      "click": _vm.getMessage
+    }
   }, [_vm._v("发送验证码")])]), _c('text', {
-    staticClass: ["loginBtn"]
+    staticClass: ["loginBtn"],
+    on: {
+      "click": _vm.actionRegister
+    }
   }, [_vm._v("立即注册")]), _c('text', {
     staticClass: ["registerNum"]
   }, [_vm._v("44595人已经注册")])])])
