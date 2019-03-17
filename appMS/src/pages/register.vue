@@ -1,21 +1,22 @@
 <template>
 	<div class="wrapper">
 		<scroller class="scroller">
+			<image class="registerTop1" resize="contain" :src="registerTop1"></image>
 			<image class="registerTop" resize="contain" :src="registerTop"></image>
 			<div class="inputItem">
 				<input class="input" placeholder="手机号" maxlength="11" placeholder-color="#fff" @input="changePhoneNum"></input>
 			</div>
 			<div class="inputItem">
-
 				<input class="input" placeholder="验证码" maxlength="6" placeholder-color="#fff" @input="changeCode"></input>
 				<image class="messageImg" resize="contain" :src="messageImg" @click="getCodeImg"></image>
 			</div>
 			<div class="inputItem">
-
 				<input class="input" placeholder="短信验证码" maxlength="6" placeholder-color="#fff" @input="changeMessage"></input>
-				<text class="sendMesBtn" @click="getMessage">发送验证码</text>
+
+				<text class="sendMesBtnDisabled" v-if="sendMsgDisabled">{{time+'秒后获取'}}</text>
+				<text class="sendMesBtn" v-if="!sendMsgDisabled" @click="getMessage">获取验证码</text>
 			</div>
-			<text class="loginBtn" @click="actionRegister">立即注册</text>
+			<text class="loginBtn" @click="actionRegister" ref="registerTop1">立即注册</text>
 			<text class="registerNum">44595人已经注册</text>
 
 		</scroller>
@@ -28,7 +29,7 @@
 		WxcCheckboxList,
 		Utils
 	} from 'weex-ui'
-
+	const dom = weex.requireModule('dom');
 	var modal = weex.requireModule('modal');
 	export default {
 		components: {
@@ -41,6 +42,8 @@
 				messageImg: "",
 				registerTop: "",
 				isRightPhone: false,
+				time: 60, // 发送验证码倒计时
+				sendMsgDisabled: false,
 				isRightCode: false, //图片验证码是否正确
 				codeImg: "", //用户输入的图片Code
 				lineCode: "", //获取的图片code
@@ -50,11 +53,17 @@
 			}
 		},
 		created: function() {
-			
-			this.registerTop = "http://192.168.1.221/img/registerTop.jpg";
+			let that = this;
+			this.registerTop = "http://192.168.1.221/img/registerTop2.jpg";
+			this.registerTop1 = "http://192.168.1.221/img/registerTop1.jpg";
 			//获取图片验证码
 			this.getCodeImg();
-			
+			//滚动到按钮位置
+			setTimeout(() => {
+				var containerEl = that.$refs.registerTop1;
+				dom.scrollToElement(containerEl, {})
+
+			}, 1200)
 		},
 
 		methods: {
@@ -68,7 +77,7 @@
 			},
 			getCodeImg() {
 				//获取验证码图片 
-				this.lineCode = "123456";
+				this.lineCode = "69859";
 				this.messageImg = "http://192.168.1.221/img/message.jpg";
 			},
 			changeCode(e) {
@@ -81,14 +90,22 @@
 			getMessage() {
 				//判断图片验证码是否正确，正确就获取短信验证码
 				if (this.isRightCode) {
-					this.lineMessage = "123456"
+					let that = this;
+					that.sendMsgDisabled = true;
+					let interval = setInterval(function() {
+						if ((that.time--) <= 0) {
+							that.time = 60;
+							that.sendMsgDisabled = false;
+							clearInterval(interval);
+						}
+					}, 1000);
+
 				} else {
 					modal.toast({
 						message: '图片验证码错误',
 						duration: 0.8
 					});
 				}
-
 			},
 			changeMessage(e) {
 				// 输入短信验证码同时校验是否正确
@@ -171,9 +188,16 @@
 		font-size: 28px;
 	}
 
+	.registerTop1 {
+		width: 750px;
+		height: 209px;
+
+
+	}
+
 	.registerTop {
 		width: 750px;
-		height: 808px;
+		height: 600px;
 
 
 	}
@@ -211,7 +235,19 @@
 		line-height: 90px;
 		font-size: 28px;
 	}
+.sendMesBtnDisabled{
+	width: 200px;
+	text-align: center;
+	color: #FFFFFF;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-left-color: #FE9B07;
 
+	height: 90px;
+	line-height: 90px;
+	font-size: 28px;
+	background-color: #ccc;
+}
 	.input {
 		flex: 1;
 		height: 90px;

@@ -67,7 +67,7 @@
 				storage.getItem('isScan', event => {
 					if (event.result === "success") {
 						console.log(event)
-						that.reset("/register")
+						that.reset("/home")
 					} else {
 						that.scanPage();
 					}

@@ -16,7 +16,7 @@
                         <text class="title">可提现(元)</text>
                         <text class="money">145.26</text>
                     </div>
-                    <div><text class="draw">提现 ></text></div>
+                    <div><text class="draw" @click="getCash">提现 ></text></div>
                 </div>
                 <div class="countBox-bottom">
                     <div class="recive">
@@ -54,10 +54,11 @@
 </template>
 
 <script>
-import navBar from "./components/navBar.vue";
-import receiveList from "./userCount/receiveList.vue";
-import drawCashList from "./userCount/drawCashList.vue";
-import refresher from "./components/refresh.vue";
+import navBar from "../components/navBar.vue";
+import refresher from "../components/refresh.vue";
+import receiveList from "./receiveList.vue";
+import drawCashList from "./drawCashList.vue";
+
 const animation = weex.requireModule("animation");
 const modal = weex.requireModule("modal");
 const dom = weex.requireModule("dom");
@@ -213,7 +214,10 @@ export default {
       const index = e.page;
       self.pageType = index;
     },
-    scrollHandel(e) {}
+    scrollHandel(e) {},
+	getCash(){
+		this.jumpInter("drawcash");
+	}
   }
 };
 </script>

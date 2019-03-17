@@ -62,7 +62,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 156);
+/******/ 	return __webpack_require__(__webpack_require__.s = 160);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -112,174 +112,7 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 156:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _vueRouter = __webpack_require__(4);
-
-var _vueRouter2 = _interopRequireDefault(_vueRouter);
-
-var _index = __webpack_require__(2);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _filters = __webpack_require__(3);
-
-var filters = _interopRequireWildcard(_filters);
-
-var _team = __webpack_require__(157);
-
-var _team2 = _interopRequireDefault(_team);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//团队
-
-Object.keys(filters).forEach(function (key) {
-    Vue.filter(key, filters[key]);
-});
-
-var router = new _vueRouter2.default({
-    routes: [
-        // {
-        //     path:  '/setting',
-        //     name: 'SettingPage',
-        //     component: SettingPage
-        // },
-
-    ]
-});
-
-// register global mixins.
-Vue.mixin(_index2.default);
-
-/* eslint-disable no-new */
-new Vue(Vue.util.extend({ el: '#root', router: router }, _team2.default));
-router.push('/');
-
-/***/ }),
-
-/***/ 157:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(158)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(159)
-
-/* template */
-var __vue_template__ = __webpack_require__(160)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\team.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-2853d20a"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 158:
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-
-/***/ 159:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      imagePath: "",
-      titleName: "团队"
-    };
-  },
-
-  created: function created() {}
-}; //
-//
-//
-//
-//
-//
-
-/***/ }),
-
-/***/ 160:
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName,
-      "MainPage": true
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-
-/***/ }),
-
-/***/ 2:
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -433,7 +266,174 @@ exports.default = {
 
 /***/ }),
 
-/***/ 3:
+/***/ 160:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _vueRouter = __webpack_require__(3);
+
+var _vueRouter2 = _interopRequireDefault(_vueRouter);
+
+var _index = __webpack_require__(1);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _filters = __webpack_require__(2);
+
+var filters = _interopRequireWildcard(_filters);
+
+var _team = __webpack_require__(161);
+
+var _team2 = _interopRequireDefault(_team);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//团队
+
+Object.keys(filters).forEach(function (key) {
+    Vue.filter(key, filters[key]);
+});
+
+var router = new _vueRouter2.default({
+    routes: [
+        // {
+        //     path:  '/setting',
+        //     name: 'SettingPage',
+        //     component: SettingPage
+        // },
+
+    ]
+});
+
+// register global mixins.
+Vue.mixin(_index2.default);
+
+/* eslint-disable no-new */
+new Vue(Vue.util.extend({ el: '#root', router: router }, _team2.default));
+router.push('/');
+
+/***/ }),
+
+/***/ 161:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(162)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(163)
+
+/* template */
+var __vue_template__ = __webpack_require__(164)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\team.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-2853d20a"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 162:
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start"
+  }
+}
+
+/***/ }),
+
+/***/ 163:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: {
+    navBar: _navBar2.default
+  },
+  data: function data() {
+    return {
+      imagePath: "",
+      titleName: "团队"
+    };
+  },
+
+  created: function created() {}
+}; //
+//
+//
+//
+//
+//
+
+/***/ }),
+
+/***/ 164:
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName,
+      "MainPage": true
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -512,7 +512,7 @@ function unescape(text) {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -62,7 +62,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 91);
+/******/ 	return __webpack_require__(__webpack_require__.s = 114);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -111,360 +111,6 @@ module.exports = __vue_exports__
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
-                                                                                                                                                                                                                                                                                * CopyRight (C) 2017-2022 Alibaba Group Holding Limited.
-                                                                                                                                                                                                                                                                                * Created by Tw93 on 17/11/01
-                                                                                                                                                                                                                                                                                */
-
-var _urlParse = __webpack_require__(10);
-
-var _urlParse2 = _interopRequireDefault(_urlParse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var Utils = {
-  UrlParser: _urlParse2.default,
-  _typeof: function _typeof(obj) {
-    return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
-  },
-  isPlainObject: function isPlainObject(obj) {
-    return Utils._typeof(obj) === 'object';
-  },
-  isString: function isString(obj) {
-    return typeof obj === 'string';
-  },
-  isNonEmptyArray: function isNonEmptyArray() {
-    var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-    return obj && obj.length > 0 && Array.isArray(obj) && typeof obj !== 'undefined';
-  },
-  isObject: function isObject(item) {
-    return item && (typeof item === 'undefined' ? 'undefined' : _typeof2(item)) === 'object' && !Array.isArray(item);
-  },
-  isEmptyObject: function isEmptyObject(obj) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-  },
-  decodeIconFont: function decodeIconFont(text) {
-    // 正则匹配 图标和文字混排 eg: 我去上学校&#xe600;,天天不&#xe600;迟到
-    var regExp = /&#x[a-z|0-9]{4,5};?/g;
-    if (regExp.test(text)) {
-      return text.replace(new RegExp(regExp, 'g'), function (iconText) {
-        var replace = iconText.replace(/&#x/, '0x').replace(/;$/, '');
-        return String.fromCharCode(replace);
-      });
-    } else {
-      return text;
-    }
-  },
-  mergeDeep: function mergeDeep(target) {
-    for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      sources[_key - 1] = arguments[_key];
-    }
-
-    if (!sources.length) return target;
-    var source = sources.shift();
-    if (Utils.isObject(target) && Utils.isObject(source)) {
-      for (var key in source) {
-        if (Utils.isObject(source[key])) {
-          if (!target[key]) {
-            Object.assign(target, _defineProperty({}, key, {}));
-          }
-          Utils.mergeDeep(target[key], source[key]);
-        } else {
-          Object.assign(target, _defineProperty({}, key, source[key]));
-        }
-      }
-    }
-    return Utils.mergeDeep.apply(Utils, [target].concat(sources));
-  },
-  appendProtocol: function appendProtocol(url) {
-    if (/^\/\//.test(url)) {
-      var bundleUrl = weex.config.bundleUrl;
-
-      return 'http' + (/^https:/.test(bundleUrl) ? 's' : '') + ':' + url;
-    }
-    return url;
-  },
-  encodeURLParams: function encodeURLParams(url) {
-    var parsedUrl = new _urlParse2.default(url, true);
-    return parsedUrl.toString();
-  },
-  goToH5Page: function goToH5Page(jumpUrl) {
-    var animated = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-    var Navigator = weex.requireModule('navigator');
-    var jumpUrlObj = new Utils.UrlParser(jumpUrl, true);
-    var url = Utils.appendProtocol(jumpUrlObj.toString());
-    Navigator.push({
-      url: Utils.encodeURLParams(url),
-      animated: animated.toString()
-    }, callback);
-  },
-
-  env: {
-    isTaobao: function isTaobao() {
-      var appName = weex.config.env.appName;
-
-      return (/(tb|taobao|淘宝)/i.test(appName)
-      );
-    },
-    isTrip: function isTrip() {
-      var appName = weex.config.env.appName;
-
-      return appName === 'LX';
-    },
-    isBoat: function isBoat() {
-      var appName = weex.config.env.appName;
-
-      return appName === 'Boat' || appName === 'BoatPlayground';
-    },
-    isWeb: function isWeb() {
-      var platform = weex.config.env.platform;
-
-      return (typeof window === 'undefined' ? 'undefined' : _typeof2(window)) === 'object' && platform.toLowerCase() === 'web';
-    },
-    isIOS: function isIOS() {
-      var platform = weex.config.env.platform;
-
-      return platform.toLowerCase() === 'ios';
-    },
-
-    /**
-     * 是否为 iPhone X or iPhoneXS or iPhoneXR or iPhoneXS Max
-     * @returns {boolean}
-     */
-    isIPhoneX: function isIPhoneX() {
-      var deviceHeight = weex.config.env.deviceHeight;
-
-      if (Utils.env.isWeb()) {
-        return (typeof window === 'undefined' ? 'undefined' : _typeof2(window)) !== undefined && window.screen && window.screen.width && window.screen.height && (parseInt(window.screen.width, 10) === 375 && parseInt(window.screen.height, 10) === 812 || parseInt(window.screen.width, 10) === 414 && parseInt(window.screen.height, 10) === 896);
-      }
-      return Utils.env.isIOS() && (deviceHeight === 2436 || deviceHeight === 2688 || deviceHeight == 1792);
-    },
-    isAndroid: function isAndroid() {
-      var platform = weex.config.env.platform;
-
-      return platform.toLowerCase() === 'android';
-    },
-    isAlipay: function isAlipay() {
-      var appName = weex.config.env.appName;
-
-      return appName === 'AP';
-    },
-    isTmall: function isTmall() {
-      var appName = weex.config.env.appName;
-
-      return (/(tm|tmall|天猫)/i.test(appName)
-      );
-    },
-    isAliWeex: function isAliWeex() {
-      return Utils.env.isTmall() || Utils.env.isTrip() || Utils.env.isTaobao();
-    },
-
-    /**
-     * 获取weex屏幕真实的设置高度，需要减去导航栏高度
-     * @returns {Number}
-     */
-    getPageHeight: function getPageHeight() {
-      var env = weex.config.env;
-
-      var navHeight = Utils.env.isWeb() ? 0 : Utils.env.isIPhoneX() ? 176 : 132;
-      return env.deviceHeight / env.deviceWidth * 750 - navHeight;
-    },
-
-    /**
-     * 获取weex屏幕真实的设置高度
-     * @returns {Number}
-     */
-    getScreenHeight: function getScreenHeight() {
-      var env = weex.config.env;
-
-      return env.deviceHeight / env.deviceWidth * 750;
-    }
-  },
-
-  /**
-   * 版本号比较
-   * @memberOf Utils
-   * @param currVer {string}
-   * @param promoteVer {string}
-   * @returns {boolean}
-   * @example
-   *
-   * const { Utils } = require('@ali/wx-bridge');
-   * const { compareVersion } = Utils;
-   * console.log(compareVersion('0.1.100', '0.1.11')); // 'true'
-   */
-  compareVersion: function compareVersion() {
-    var currVer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '0.0.0';
-    var promoteVer = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0.0.0';
-
-    if (currVer === promoteVer) return true;
-    var currVerArr = currVer.split('.');
-    var promoteVerArr = promoteVer.split('.');
-    var len = Math.max(currVerArr.length, promoteVerArr.length);
-    for (var i = 0; i < len; i++) {
-      var proVal = ~~promoteVerArr[i];
-      var curVal = ~~currVerArr[i];
-      if (proVal < curVal) {
-        return true;
-      } else if (proVal > curVal) {
-        return false;
-      }
-    }
-    return false;
-  },
-
-  /**
-   * 分割数组
-   * @param arr 被分割数组
-   * @param size 分割数组的长度
-   * @returns {Array}
-   */
-  arrayChunk: function arrayChunk() {
-    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
-
-    var groups = [];
-    if (arr && arr.length > 0) {
-      groups = arr.map(function (e, i) {
-        return i % size === 0 ? arr.slice(i, i + size) : null;
-      }).filter(function (e) {
-        return e;
-      });
-    }
-    return groups;
-  },
-
-  /*
-   * 截断字符串
-   * @param str 传入字符串
-   * @param len 截断长度
-   * @param hasDot 末尾是否...
-   * @returns {String}
-   */
-  truncateString: function truncateString(str, len) {
-    var hasDot = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-    var newLength = 0;
-    var newStr = '';
-    var singleChar = '';
-    var chineseRegex = /[^\x00-\xff]/g;
-    var strLength = str.replace(chineseRegex, '**').length;
-    for (var i = 0; i < strLength; i++) {
-      singleChar = str.charAt(i).toString();
-      if (singleChar.match(chineseRegex) !== null) {
-        newLength += 2;
-      } else {
-        newLength++;
-      }
-      if (newLength > len) {
-        break;
-      }
-      newStr += singleChar;
-    }
-
-    if (hasDot && strLength > len) {
-      newStr += '...';
-    }
-    return newStr;
-  },
-
-  /*
-   * 转换 obj 为 url params参数
-   * @param obj 传入字符串
-   * @returns {String}
-   */
-  objToParams: function objToParams(obj) {
-    var str = "";
-    for (var key in obj) {
-      if (str !== "") {
-        str += "&";
-      }
-      str += key + "=" + encodeURIComponent(obj[key]);
-    }
-    return str;
-  },
-
-  /*
-   * 转换 url params参数为obj
-   * @param str 传入url参数字符串
-   * @returns {Object}
-   */
-  paramsToObj: function paramsToObj(str) {
-    var obj = {};
-    try {
-      obj = JSON.parse('{"' + decodeURI(str).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-    } catch (e) {
-      console.log(e);
-    }
-    return obj;
-  },
-
-  animation: {
-    /**
-     * 返回定义页面转场动画起初的位置
-     * @param ref
-     * @param transform 运动类型
-     * @param status
-     * @param callback 回调函数
-     */
-    pageTransitionAnimation: function pageTransitionAnimation(ref, transform, status, callback) {
-      var animation = weex.requireModule('animation');
-      animation.transition(ref, {
-        styles: {
-          transform: transform
-        },
-        duration: status ? 250 : 300, // ms
-        timingFunction: status ? 'ease-in' : 'ease-out',
-        delay: 0 // ms
-      }, function () {
-        callback && callback();
-      });
-    }
-  },
-  uiStyle: {
-    /**
-     * 返回定义页面转场动画起初的位置
-     * @param animationType 页面转场动画的类型 push，model
-     * @param size 分割数组的长度
-     * @returns {}
-     */
-    pageTransitionAnimationStyle: function pageTransitionAnimationStyle(animationType) {
-      if (animationType === 'push') {
-        return {
-          left: '750px',
-          top: '0px',
-          height: weex.config.env.deviceHeight / weex.config.env.deviceWidth * 750 + 'px'
-        };
-      } else if (animationType === 'model') {
-        return {
-          top: weex.config.env.deviceHeight / weex.config.env.deviceWidth * 750 + 'px',
-          left: '0px',
-          height: weex.config.env.deviceHeight / weex.config.env.deviceWidth * 750 + 'px'
-        };
-      }
-      return {};
-    }
-  }
-};
-
-exports.default = Utils;
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -617,7 +263,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -695,7 +341,7 @@ function unescape(text) {
 }
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3321,6 +2967,360 @@ if (inBrowser && window.Vue) {
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+                                                                                                                                                                                                                                                                                * CopyRight (C) 2017-2022 Alibaba Group Holding Limited.
+                                                                                                                                                                                                                                                                                * Created by Tw93 on 17/11/01
+                                                                                                                                                                                                                                                                                */
+
+var _urlParse = __webpack_require__(10);
+
+var _urlParse2 = _interopRequireDefault(_urlParse);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Utils = {
+  UrlParser: _urlParse2.default,
+  _typeof: function _typeof(obj) {
+    return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+  },
+  isPlainObject: function isPlainObject(obj) {
+    return Utils._typeof(obj) === 'object';
+  },
+  isString: function isString(obj) {
+    return typeof obj === 'string';
+  },
+  isNonEmptyArray: function isNonEmptyArray() {
+    var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    return obj && obj.length > 0 && Array.isArray(obj) && typeof obj !== 'undefined';
+  },
+  isObject: function isObject(item) {
+    return item && (typeof item === 'undefined' ? 'undefined' : _typeof2(item)) === 'object' && !Array.isArray(item);
+  },
+  isEmptyObject: function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  },
+  decodeIconFont: function decodeIconFont(text) {
+    // 正则匹配 图标和文字混排 eg: 我去上学校&#xe600;,天天不&#xe600;迟到
+    var regExp = /&#x[a-z|0-9]{4,5};?/g;
+    if (regExp.test(text)) {
+      return text.replace(new RegExp(regExp, 'g'), function (iconText) {
+        var replace = iconText.replace(/&#x/, '0x').replace(/;$/, '');
+        return String.fromCharCode(replace);
+      });
+    } else {
+      return text;
+    }
+  },
+  mergeDeep: function mergeDeep(target) {
+    for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      sources[_key - 1] = arguments[_key];
+    }
+
+    if (!sources.length) return target;
+    var source = sources.shift();
+    if (Utils.isObject(target) && Utils.isObject(source)) {
+      for (var key in source) {
+        if (Utils.isObject(source[key])) {
+          if (!target[key]) {
+            Object.assign(target, _defineProperty({}, key, {}));
+          }
+          Utils.mergeDeep(target[key], source[key]);
+        } else {
+          Object.assign(target, _defineProperty({}, key, source[key]));
+        }
+      }
+    }
+    return Utils.mergeDeep.apply(Utils, [target].concat(sources));
+  },
+  appendProtocol: function appendProtocol(url) {
+    if (/^\/\//.test(url)) {
+      var bundleUrl = weex.config.bundleUrl;
+
+      return 'http' + (/^https:/.test(bundleUrl) ? 's' : '') + ':' + url;
+    }
+    return url;
+  },
+  encodeURLParams: function encodeURLParams(url) {
+    var parsedUrl = new _urlParse2.default(url, true);
+    return parsedUrl.toString();
+  },
+  goToH5Page: function goToH5Page(jumpUrl) {
+    var animated = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    var Navigator = weex.requireModule('navigator');
+    var jumpUrlObj = new Utils.UrlParser(jumpUrl, true);
+    var url = Utils.appendProtocol(jumpUrlObj.toString());
+    Navigator.push({
+      url: Utils.encodeURLParams(url),
+      animated: animated.toString()
+    }, callback);
+  },
+
+  env: {
+    isTaobao: function isTaobao() {
+      var appName = weex.config.env.appName;
+
+      return (/(tb|taobao|淘宝)/i.test(appName)
+      );
+    },
+    isTrip: function isTrip() {
+      var appName = weex.config.env.appName;
+
+      return appName === 'LX';
+    },
+    isBoat: function isBoat() {
+      var appName = weex.config.env.appName;
+
+      return appName === 'Boat' || appName === 'BoatPlayground';
+    },
+    isWeb: function isWeb() {
+      var platform = weex.config.env.platform;
+
+      return (typeof window === 'undefined' ? 'undefined' : _typeof2(window)) === 'object' && platform.toLowerCase() === 'web';
+    },
+    isIOS: function isIOS() {
+      var platform = weex.config.env.platform;
+
+      return platform.toLowerCase() === 'ios';
+    },
+
+    /**
+     * 是否为 iPhone X or iPhoneXS or iPhoneXR or iPhoneXS Max
+     * @returns {boolean}
+     */
+    isIPhoneX: function isIPhoneX() {
+      var deviceHeight = weex.config.env.deviceHeight;
+
+      if (Utils.env.isWeb()) {
+        return (typeof window === 'undefined' ? 'undefined' : _typeof2(window)) !== undefined && window.screen && window.screen.width && window.screen.height && (parseInt(window.screen.width, 10) === 375 && parseInt(window.screen.height, 10) === 812 || parseInt(window.screen.width, 10) === 414 && parseInt(window.screen.height, 10) === 896);
+      }
+      return Utils.env.isIOS() && (deviceHeight === 2436 || deviceHeight === 2688 || deviceHeight == 1792);
+    },
+    isAndroid: function isAndroid() {
+      var platform = weex.config.env.platform;
+
+      return platform.toLowerCase() === 'android';
+    },
+    isAlipay: function isAlipay() {
+      var appName = weex.config.env.appName;
+
+      return appName === 'AP';
+    },
+    isTmall: function isTmall() {
+      var appName = weex.config.env.appName;
+
+      return (/(tm|tmall|天猫)/i.test(appName)
+      );
+    },
+    isAliWeex: function isAliWeex() {
+      return Utils.env.isTmall() || Utils.env.isTrip() || Utils.env.isTaobao();
+    },
+
+    /**
+     * 获取weex屏幕真实的设置高度，需要减去导航栏高度
+     * @returns {Number}
+     */
+    getPageHeight: function getPageHeight() {
+      var env = weex.config.env;
+
+      var navHeight = Utils.env.isWeb() ? 0 : Utils.env.isIPhoneX() ? 176 : 132;
+      return env.deviceHeight / env.deviceWidth * 750 - navHeight;
+    },
+
+    /**
+     * 获取weex屏幕真实的设置高度
+     * @returns {Number}
+     */
+    getScreenHeight: function getScreenHeight() {
+      var env = weex.config.env;
+
+      return env.deviceHeight / env.deviceWidth * 750;
+    }
+  },
+
+  /**
+   * 版本号比较
+   * @memberOf Utils
+   * @param currVer {string}
+   * @param promoteVer {string}
+   * @returns {boolean}
+   * @example
+   *
+   * const { Utils } = require('@ali/wx-bridge');
+   * const { compareVersion } = Utils;
+   * console.log(compareVersion('0.1.100', '0.1.11')); // 'true'
+   */
+  compareVersion: function compareVersion() {
+    var currVer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '0.0.0';
+    var promoteVer = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0.0.0';
+
+    if (currVer === promoteVer) return true;
+    var currVerArr = currVer.split('.');
+    var promoteVerArr = promoteVer.split('.');
+    var len = Math.max(currVerArr.length, promoteVerArr.length);
+    for (var i = 0; i < len; i++) {
+      var proVal = ~~promoteVerArr[i];
+      var curVal = ~~currVerArr[i];
+      if (proVal < curVal) {
+        return true;
+      } else if (proVal > curVal) {
+        return false;
+      }
+    }
+    return false;
+  },
+
+  /**
+   * 分割数组
+   * @param arr 被分割数组
+   * @param size 分割数组的长度
+   * @returns {Array}
+   */
+  arrayChunk: function arrayChunk() {
+    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
+
+    var groups = [];
+    if (arr && arr.length > 0) {
+      groups = arr.map(function (e, i) {
+        return i % size === 0 ? arr.slice(i, i + size) : null;
+      }).filter(function (e) {
+        return e;
+      });
+    }
+    return groups;
+  },
+
+  /*
+   * 截断字符串
+   * @param str 传入字符串
+   * @param len 截断长度
+   * @param hasDot 末尾是否...
+   * @returns {String}
+   */
+  truncateString: function truncateString(str, len) {
+    var hasDot = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    var newLength = 0;
+    var newStr = '';
+    var singleChar = '';
+    var chineseRegex = /[^\x00-\xff]/g;
+    var strLength = str.replace(chineseRegex, '**').length;
+    for (var i = 0; i < strLength; i++) {
+      singleChar = str.charAt(i).toString();
+      if (singleChar.match(chineseRegex) !== null) {
+        newLength += 2;
+      } else {
+        newLength++;
+      }
+      if (newLength > len) {
+        break;
+      }
+      newStr += singleChar;
+    }
+
+    if (hasDot && strLength > len) {
+      newStr += '...';
+    }
+    return newStr;
+  },
+
+  /*
+   * 转换 obj 为 url params参数
+   * @param obj 传入字符串
+   * @returns {String}
+   */
+  objToParams: function objToParams(obj) {
+    var str = "";
+    for (var key in obj) {
+      if (str !== "") {
+        str += "&";
+      }
+      str += key + "=" + encodeURIComponent(obj[key]);
+    }
+    return str;
+  },
+
+  /*
+   * 转换 url params参数为obj
+   * @param str 传入url参数字符串
+   * @returns {Object}
+   */
+  paramsToObj: function paramsToObj(str) {
+    var obj = {};
+    try {
+      obj = JSON.parse('{"' + decodeURI(str).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+    } catch (e) {
+      console.log(e);
+    }
+    return obj;
+  },
+
+  animation: {
+    /**
+     * 返回定义页面转场动画起初的位置
+     * @param ref
+     * @param transform 运动类型
+     * @param status
+     * @param callback 回调函数
+     */
+    pageTransitionAnimation: function pageTransitionAnimation(ref, transform, status, callback) {
+      var animation = weex.requireModule('animation');
+      animation.transition(ref, {
+        styles: {
+          transform: transform
+        },
+        duration: status ? 250 : 300, // ms
+        timingFunction: status ? 'ease-in' : 'ease-out',
+        delay: 0 // ms
+      }, function () {
+        callback && callback();
+      });
+    }
+  },
+  uiStyle: {
+    /**
+     * 返回定义页面转场动画起初的位置
+     * @param animationType 页面转场动画的类型 push，model
+     * @param size 分割数组的长度
+     * @returns {}
+     */
+    pageTransitionAnimationStyle: function pageTransitionAnimationStyle(animationType) {
+      if (animationType === 'push') {
+        return {
+          left: '750px',
+          top: '0px',
+          height: weex.config.env.deviceHeight / weex.config.env.deviceWidth * 750 + 'px'
+        };
+      } else if (animationType === 'model') {
+        return {
+          top: weex.config.env.deviceHeight / weex.config.env.deviceWidth * 750 + 'px',
+          left: '0px',
+          height: weex.config.env.deviceHeight / weex.config.env.deviceWidth * 750 + 'px'
+        };
+      }
+      return {};
+    }
+  }
+};
+
+exports.default = Utils;
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -4391,7 +4391,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(4);
 
 var _utils2 = _interopRequireDefault(_utils);
 
@@ -4476,21 +4476,56 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 module.exports.render._withStripped = true
 
 /***/ }),
-/* 20 */
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(21)
+__vue_styles__.push(__webpack_require__(56)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(22)
+__vue_exports__ = __webpack_require__(57)
 
 /* template */
-var __vue_template__ = __webpack_require__(23)
+var __vue_template__ = __webpack_require__(58)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4520,7 +4555,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 21 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -4555,7 +4590,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 22 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4673,7 +4708,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 23 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4723,16 +4758,1424 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 module.exports.render._withStripped = true
 
 /***/ }),
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _vueRouter = __webpack_require__(3);
+
+var _vueRouter2 = _interopRequireDefault(_vueRouter);
+
+var _mixins = __webpack_require__(1);
+
+var _mixins2 = _interopRequireDefault(_mixins);
+
+var _index = __webpack_require__(16);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _filters = __webpack_require__(2);
+
+var filters = _interopRequireWildcard(_filters);
+
+var _index3 = __webpack_require__(115);
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _salary = __webpack_require__(119);
+
+var _salary2 = _interopRequireDefault(_salary);
+
+var _drawCash = __webpack_require__(123);
+
+var _drawCash2 = _interopRequireDefault(_drawCash);
+
+var _recomFee = __webpack_require__(127);
+
+var _recomFee2 = _interopRequireDefault(_recomFee);
+
+var _extendFee = __webpack_require__(131);
+
+var _extendFee2 = _interopRequireDefault(_extendFee);
+
+var _starSalary = __webpack_require__(135);
+
+var _starSalary2 = _interopRequireDefault(_starSalary);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//账户
+// register global utility filters.
+Object.keys(filters).forEach(function (key) {
+    Vue.filter(key, filters[key]);
+});
+Vue.use(_vueRouter2.default);
+
+var router = new _vueRouter2.default({
+    routes: [{
+        path: '/drawcash',
+        name: "提现",
+        component: _drawCash2.default
+    }, {
+        path: '/extendfee',
+        name: "推广费",
+        component: _extendFee2.default
+    }, {
+        path: '/recomfee',
+        name: "推荐奖",
+        component: _recomFee2.default
+    }, {
+        path: '/starsalary',
+        name: "星级工资",
+        component: _starSalary2.default
+    }, {
+        path: '/salary',
+        name: "工资",
+        component: _salary2.default
+    }, {
+        path: '/',
+        name: "工资",
+        component: _index4.default
+    }]
+});
+// register global mixins.
+Vue.mixin(_mixins2.default);
+
+/* eslint-disable no-new */
+new Vue(Vue.util.extend({ el: '#root', router: router }, _index2.default));
+
+router.push('/');
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(116)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(117)
+
+/* template */
+var __vue_template__ = __webpack_require__(118)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\index.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-02f3a84c"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "main-list": {
+    "position": "fixed",
+    "top": "100",
+    "bottom": 0,
+    "left": 0,
+    "right": 0
+  },
+  "navBar": {
+    "position": "sticky",
+    "width": "750"
+  },
+  "fixedNav": {
+    "top": "100"
+  },
+  "hint": {
+    "position": "fixed",
+    "bottom": "90"
+  },
+  "ml-ipx": {
+    "top": "140",
+    "bottom": "40"
+  },
+  "item-container": {
+    "width": "750",
+    "backgroundColor": "#f2f3f4"
+  },
+  "content": {
+    "width": "750",
+    "height": "150",
+    "borderBottomWidth": "1",
+    "alignItems": "center",
+    "justifyContent": "center"
+  },
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start",
+    "alignItems": "center"
+  },
+  "scrollBox": {
+    "width": "750",
+    "justifyContent": "center",
+    "alignItems": "center"
+  },
+  "countBox": {
+    "width": "700",
+    "height": "280",
+    "backgroundColor": "#f24c4c",
+    "borderRadius": "10",
+    "marginTop": "20",
+    "paddingTop": "20",
+    "paddingRight": "30",
+    "paddingBottom": "20",
+    "paddingLeft": "30",
+    "display": "flex",
+    "justifyContent": "center"
+  },
+  "countBox-top": {
+    "display": "flex",
+    "justifyContent": "space-between",
+    "flexDirection": "row",
+    "alignItems": "flex-end",
+    "flex": 1,
+    "borderBottomColor": "#ff6b57",
+    "borderBottomWidth": "1",
+    "borderBottomStyle": "solid",
+    "paddingBottom": "10",
+    "paddingLeft": "10"
+  },
+  "countBox-bottom": {
+    "display": "flex",
+    "flexDirection": "row",
+    "alignItems": "center",
+    "height": "100",
+    "paddingTop": "20",
+    "paddingLeft": "10"
+  },
+  "title": {
+    "fontSize": "22",
+    "color": "#cccccc"
+  },
+  "recive": {
+    "marginRight": "50"
+  },
+  "draw": {
+    "color": "#ffffff",
+    "fontSize": "28",
+    "marginBottom": "15"
+  },
+  "minmoney": {
+    "fontSize": "40",
+    "color": "#ffffff",
+    "marginBottom": "10"
+  },
+  "money": {
+    "fontSize": "52",
+    "color": "#ffffff",
+    "marginTop": "10"
+  },
+  "indicator": {
+    "textAlign": "center"
+  }
+}
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _utils = __webpack_require__(4);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _wxcTabPage = __webpack_require__(202);
+
+var _wxcTabPage2 = _interopRequireDefault(_wxcTabPage);
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+var _refresh = __webpack_require__(55);
+
+var _refresh2 = _interopRequireDefault(_refresh);
+
+var _receiveList = __webpack_require__(208);
+
+var _receiveList2 = _interopRequireDefault(_receiveList);
+
+var _drawCashList = __webpack_require__(212);
+
+var _drawCashList2 = _interopRequireDefault(_drawCashList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var animation = weex.requireModule("animation");
+var modal = weex.requireModule("modal");
+var dom = weex.requireModule("dom");
+exports.default = {
+  components: {
+    refresher: _refresh2.default,
+    navBar: _navBar2.default,
+    ReceiveList: _receiveList2.default,
+    DrawCashList: _drawCashList2.default,
+    WxcTabPage: _wxcTabPage2.default
+  },
+  data: function data() {
+    return {
+      tabTitles: [{
+        title: "收入明细"
+      }, {
+        title: "提现记录"
+      }],
+      tabStyles: {
+        bgColor: "#FFFFFF",
+        titleColor: "#666666",
+        activeTitleColor: "#DA251E",
+        activeBgColor: "#FFFFFF",
+        isActiveTitleBold: true,
+        width: 275,
+        height: 80,
+        fontSize: 28,
+        hasActiveBottom: true,
+        activeBottomColor: "#DA251E",
+        activeBottomHeight: 5,
+        activeBottomWidth: 60,
+        rightOffset: 100,
+        leftOffset: 100
+      },
+      imagePath: "",
+      titleName: "我的账户",
+      realHeight: _utils2.default.env.getScreenHeight(),
+      pageType: 0,
+      tabPageHeight: 80,
+      showLoading: "hide",
+      hint: "",
+      fixedNav: false,
+      goodsList: [{
+        type: 1,
+        title: "2018-10月工资",
+        receiveMoney: "3511.00",
+        createTime: "2018-02-03",
+        status: "已结算",
+        recommended: "李依依"
+      }, {
+        type: 2,
+        title: "复星联合星如意",
+        receiveMoney: "20.00",
+        createTime: "2018-02-03",
+        status: "已结算",
+        premium: "4520.00",
+        settleDate: "2018-10-20"
+      }, {
+        type: 3,
+        title: "2018-10月工资",
+        receiveMoney: "3511.00",
+        createTime: "2018-02-03",
+        status: "已结算",
+        recommended: "李依依"
+      }, {
+        type: 4,
+        title: "复星联合星如意",
+        receiveMoney: "20.00",
+        createTime: "2018-02-03",
+        status: "已结算",
+        premium: "4520.00",
+        settleDate: "2018-10-20"
+      }],
+      drawList: [{
+        date: "2016-11-01",
+        time: "11:12",
+        money: "200.00"
+      }, {
+        date: "2019-11-01",
+        time: "11:12",
+        money: "20.00"
+      }, {
+        date: "2019-11-01",
+        time: "11:12",
+        money: "300.00"
+      }, {
+        date: "2019-11-03",
+        time: "11:12",
+        money: "200.30"
+      }, {
+        date: "2019-11-01",
+        time: "11:12",
+        money: "500.00"
+      }, {
+        date: "2019-11-01",
+        time: "11:12",
+        money: "500.00"
+      }, {
+        date: "2019-11-01",
+        time: "11:12",
+        money: "500.00"
+      }, {
+        date: "2019-11-01",
+        time: "11:12",
+        money: "500.00"
+      }]
+    };
+  },
+
+  created: function created() {
+    this.imagePath = this.getImagePath("count", ".jpg");
+  },
+  methods: {
+    onloading: function onloading() {
+      var _this = this;
+
+      modal.toast({ message: "loading", duration: 0.3 });
+      this.showLoading = "show";
+      setTimeout(function () {
+        // this.goodsList.push(...this.recommend.goods1);
+        _this.showLoading = "hide";
+      }, 300);
+    },
+    onloadmore: function onloadmore() {
+      modal.toast({ message: "loading", duration: 0.3 });
+      setTimeout(function () {
+        // this.goodsList.push(...this.recommend.goods1);
+      }, 100);
+    },
+    loadingDown: function loadingDown() {
+      // this.goodsList = [];
+      // this.goodsList.push(...this.recommend.goods2);
+      // this.goodsList.push(...this.recommend.goods1);
+    },
+    wxcTabPageCurrentTabSelected: function wxcTabPageCurrentTabSelected(e) {
+      var self = this;
+      var index = e.page;
+      self.pageType = index;
+    },
+    scrollHandel: function scrollHandel(e) {},
+    getCash: function getCash() {
+      this.jumpInter("drawcash");
+    }
+  }
+};
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName,
+      "MainPage": true
+    }
+  }), _c('scroller', {
+    class: ['main-list', _vm.isIpx && _vm.isIpx() ? 'ml-ipx' : ''],
+    attrs: {
+      "offsetAccuracy": "300",
+      "loadmoreoffset": "300"
+    },
+    on: {
+      "loadmore": _vm.onloadmore
+    }
+  }, [_c('refresher', {
+    on: {
+      "loadingDown": _vm.loadingDown
+    }
+  }), _c('div', [_c('div', {
+    staticClass: ["scrollBox"]
+  }, [_c('div', {
+    staticClass: ["countBox"]
+  }, [_c('div', {
+    staticClass: ["countBox-top"]
+  }, [_vm._m(0), _c('div', [_c('text', {
+    staticClass: ["draw"],
+    on: {
+      "click": _vm.getCash
+    }
+  }, [_vm._v("提现 >")])])]), _vm._m(1)])]), _c('div', {
+    class: ['navBar', _vm.fixedNav ? 'fixedNav' : '']
+  }, [_c('wxc-tab-page', {
+    ref: "wxc-tab-page",
+    attrs: {
+      "tabTitles": _vm.tabTitles,
+      "tabStyles": _vm.tabStyles,
+      "titleType": "icon",
+      "tabPageHeight": _vm.tabPageHeight
+    },
+    on: {
+      "wxcTabPageCurrentTabSelected": _vm.wxcTabPageCurrentTabSelected
+    }
+  })], 1), (_vm.pageType.toString() == '0') ? _c('ReceiveList', {
+    staticClass: ["receive"],
+    attrs: {
+      "goods": _vm.goodsList
+    }
+  }) : _c('DrawCashList', {
+    attrs: {
+      "goods": _vm.drawList
+    }
+  })], 1), _c('loading', {
+    staticClass: ["loading"],
+    attrs: {
+      "display": _vm.showLoading
+    },
+    on: {
+      "loading": _vm.onloading
+    }
+  }, [_c('text', {
+    staticClass: ["indicator"]
+  }, [_vm._v("...")])])], 1), _c('text', {
+    staticClass: ["hint"]
+  }, [_vm._v(_vm._s(_vm.hint))])], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {}, [_c('text', {
+    staticClass: ["title"]
+  }, [_vm._v("可提现(元)")]), _c('text', {
+    staticClass: ["money"]
+  }, [_vm._v("145.26")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["countBox-bottom"]
+  }, [_c('div', {
+    staticClass: ["recive"]
+  }, [_c('text', {
+    staticClass: ["minmoney"]
+  }, [_vm._v("4762.90")]), _c('text', {
+    staticClass: ["title"]
+  }, [_vm._v("累计收入(元)")])]), _c('div', [_c('text', {
+    staticClass: ["minmoney"]
+  }, [_vm._v("145.26")]), _c('text', {
+    staticClass: ["title"]
+  }, [_vm._v("结算中(元)")])])])
+}]}
+module.exports.render._withStripped = true
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(120)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(121)
+
+/* template */
+var __vue_template__ = __webpack_require__(122)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\salary.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-77cc8480"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "paddingBottom": "100",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start"
+  }
+}
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var storage = weex.requireModule("storage"); //
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  components: {
+    navBar: _navBar2.default
+  },
+  data: function data() {
+    return {
+      salaryMonth: "",
+      titleName: "工资"
+    };
+  },
+
+  created: function created() {
+    var _this = this;
+
+    storage.getItem("salaryMonth", function (event) {
+      console.log("get value:", event.data);
+      _this.salaryMonth = "当前月份: " + event.data;
+    });
+  }
+};
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName
+    }
+  }), _c('text', [_vm._v(" " + _vm._s(_vm.salaryMonth))])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(124)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(125)
+
+/* template */
+var __vue_template__ = __webpack_require__(126)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\drawCash.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-400e808d"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start",
+    "alignItems": "center"
+  },
+  "drawBox": {
+    "width": "700",
+    "backgroundColor": "#FFFFFF",
+    "marginTop": "20",
+    "borderRadius": "10"
+  },
+  "drawTop": {
+    "backgroundColor": "#FFF7F8",
+    "height": "80",
+    "display": "flex",
+    "flexDirection": "row",
+    "justifyContent": "space-between",
+    "alignItems": "center",
+    "paddingTop": 0,
+    "paddingRight": "20",
+    "paddingBottom": 0,
+    "paddingLeft": "20"
+  },
+  "drawTop-left": {
+    "display": "flex",
+    "flexDirection": "row"
+  },
+  "cashTarget": {
+    "color": "#333333",
+    "fontSize": "28"
+  },
+  "cardTarget": {
+    "color": "#000000",
+    "fontSize": "30"
+  },
+  "changeCard": {
+    "color": "#DA251E",
+    "fontSize": "28"
+  },
+  "drawContent": {
+    "paddingTop": 0,
+    "paddingRight": "20",
+    "paddingBottom": 0,
+    "paddingLeft": "20"
+  },
+  "drawTitle": {
+    "marginTop": "60",
+    "marginBottom": "30",
+    "fontSize": "28"
+  },
+  "inputItem": {
+    "flexDirection": "row",
+    "height": "100",
+    "borderBottomStyle": "solid",
+    "borderBottomWidth": "1",
+    "borderBottomColor": "#CCCCCC",
+    "alignItems": "center",
+    "marginBottom": "20"
+  },
+  "input": {
+    "flex": 1,
+    "height": "100",
+    "paddingLeft": "20",
+    "fontSize": "40"
+  },
+  "symbol": {
+    "fontSize": "50",
+    "color": "#000000"
+  },
+  "leveltips": {
+    "color": "#666666",
+    "fontSize": "26"
+  },
+  "drawBtn": {
+    "width": "500",
+    "height": "80",
+    "lineHeight": "80",
+    "textAlign": "center",
+    "color": "#FFFFFF",
+    "backgroundColor": "#DA251E",
+    "fontSize": "30",
+    "borderRadius": "10",
+    "marginTop": "60",
+    "marginRight": "80",
+    "marginBottom": "30",
+    "marginLeft": "80"
+  }
+}
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	components: {
+		navBar: _navBar2.default
+	},
+	data: function data() {
+		return {
+			imagePath: "",
+			titleName: "提现"
+		};
+	},
+
+	created: function created() {}
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName
+    }
+  }), _c('div', {
+    staticClass: ["drawBox"]
+  }, [_vm._m(0), _c('div', {
+    staticClass: ["drawContent"]
+  }, [_c('text', {
+    staticClass: ["drawTitle"]
+  }, [_vm._v("提现金额")]), _c('div', {
+    staticClass: ["inputItem"]
+  }, [_c('text', {
+    staticClass: ["symbol"]
+  }, [_vm._v("￥")]), _c('input', {
+    staticClass: ["input"],
+    attrs: {
+      "type": "tel",
+      "placeholder": "请输入金额"
+    },
+    on: {
+      "input": _vm.changeUserName
+    }
+  })]), _c('text', {
+    staticClass: ["leveltips"]
+  }, [_vm._v("每次最低提现1000元")]), _c('text', {
+    staticClass: ["drawBtn"]
+  }, [_vm._v("提现")])])])], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["drawTop"]
+  }, [_c('div', {
+    staticClass: ["drawTop-left"]
+  }, [_c('text', {
+    staticClass: ["cashTarget"]
+  }, [_vm._v("到银行卡")]), _c('text', {
+    staticClass: ["cardTarget"]
+  }, [_vm._v(" 工商银行 （1234）")])]), _c('text', {
+    staticClass: ["changeCard"]
+  }, [_vm._v("更改默认")])])
+}]}
+module.exports.render._withStripped = true
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(128)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(129)
+
+/* template */
+var __vue_template__ = __webpack_require__(130)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\recomFee.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-7d9a40a4"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "paddingBottom": "100",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start"
+  }
+}
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var storage = weex.requireModule("storage"); //
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  components: {
+    navBar: _navBar2.default
+  },
+  data: function data() {
+    return {
+      salaryMonth: "",
+      titleName: "推荐奖励"
+    };
+  },
+
+  created: function created() {
+    var _this = this;
+
+    storage.getItem("salaryMonth", function (event) {
+      console.log("get value:", event.data);
+      _this.salaryMonth = "当前月份: " + event.data;
+    });
+  }
+};
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName
+    }
+  }), _c('text', [_vm._v(" " + _vm._s(_vm.salaryMonth))])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(132)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(133)
+
+/* template */
+var __vue_template__ = __webpack_require__(134)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\extendFee.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-e2a150f4"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "paddingBottom": "100",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start"
+  }
+}
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: {
+    navBar: _navBar2.default
+  },
+  data: function data() {
+    return {
+      salaryMonth: "",
+      titleName: "推广费"
+    };
+  },
+
+  created: function created() {
+    var _this = this;
+
+    storage.getItem("salaryMonth", function (event) {
+      console.log("get value:", event.data);
+      _this.salaryMonth = "当前月份: " + event.data;
+    });
+  }
+}; //
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName
+    }
+  }), _c('text', [_vm._v(" " + _vm._s(_vm.salaryMonth))])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = []
+
+/* styles */
+__vue_styles__.push(__webpack_require__(136)
+)
+
+/* script */
+__vue_exports__ = __webpack_require__(137)
+
+/* template */
+var __vue_template__ = __webpack_require__(138)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\starSalary.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-163502b2"
+__vue_options__.style = __vue_options__.style || {}
+__vue_styles__.forEach(function (module) {
+  for (var name in module) {
+    __vue_options__.style[name] = module[name]
+  }
+})
+if (typeof __register_static_styles__ === "function") {
+  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
+}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "wrapper": {
+    "flex": 1,
+    "backgroundColor": "#f2f2f2",
+    "paddingBottom": "100",
+    "fontSize": "28",
+    "width": "750",
+    "flexDirection": "column",
+    "justifyContent": "flex-start"
+  }
+}
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _navBar = __webpack_require__(0);
+
+var _navBar2 = _interopRequireDefault(_navBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  components: {
+    navBar: _navBar2.default
+  },
+  data: function data() {
+    return {
+      imagePath: "",
+      titleName: "星级工资"
+    };
+  },
+
+  created: function created() {}
+}; //
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["wrapper"]
+  }, [_c('navBar', {
+    attrs: {
+      "title": _vm.titleName
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5535,313 +6978,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 });;
 
 /***/ }),
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _vueRouter = __webpack_require__(4);
-
-var _vueRouter2 = _interopRequireDefault(_vueRouter);
-
-var _mixins = __webpack_require__(2);
-
-var _mixins2 = _interopRequireDefault(_mixins);
-
-var _index = __webpack_require__(16);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _filters = __webpack_require__(3);
-
-var filters = _interopRequireWildcard(_filters);
-
-var _userCount = __webpack_require__(92);
-
-var _userCount2 = _interopRequireDefault(_userCount);
-
-var _salary = __webpack_require__(110);
-
-var _salary2 = _interopRequireDefault(_salary);
-
-var _drawCash = __webpack_require__(114);
-
-var _drawCash2 = _interopRequireDefault(_drawCash);
-
-var _recomFee = __webpack_require__(118);
-
-var _recomFee2 = _interopRequireDefault(_recomFee);
-
-var _extendFee = __webpack_require__(122);
-
-var _extendFee2 = _interopRequireDefault(_extendFee);
-
-var _starSalary = __webpack_require__(126);
-
-var _starSalary2 = _interopRequireDefault(_starSalary);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//账户
-// register global utility filters.
-Object.keys(filters).forEach(function (key) {
-    Vue.filter(key, filters[key]);
-});
-Vue.use(_vueRouter2.default);
-
-var router = new _vueRouter2.default({
-    routes: [{
-        path: '/drawcash',
-        name: "提现",
-        component: _drawCash2.default
-    }, {
-        path: '/extendfee',
-        name: "推广费",
-        component: _extendFee2.default
-    }, {
-        path: '/recomfee',
-        name: "推荐奖",
-        component: _recomFee2.default
-    }, {
-        path: '/starsalary',
-        name: "星级工资",
-        component: _starSalary2.default
-    }, {
-        path: '/salary',
-        name: "工资",
-        component: _salary2.default
-    }, {
-        path: '/',
-        name: "工资",
-        component: _userCount2.default
-    }]
-});
-// register global mixins.
-Vue.mixin(_mixins2.default);
-
-/* eslint-disable no-new */
-new Vue(Vue.util.extend({ el: '#root', router: router }, _index2.default));
-
-router.push('/');
-
-/***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(93)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(94)
-
-/* template */
-var __vue_template__ = __webpack_require__(109)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-1c5df7d6"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  "main-list": {
-    "position": "fixed",
-    "top": "100",
-    "bottom": 0,
-    "left": 0,
-    "right": 0
-  },
-  "navBar": {
-    "position": "sticky",
-    "width": "750"
-  },
-  "fixedNav": {
-    "top": "100"
-  },
-  "hint": {
-    "position": "fixed",
-    "bottom": "90"
-  },
-  "ml-ipx": {
-    "top": "140",
-    "bottom": "40"
-  },
-  "item-container": {
-    "width": "750",
-    "backgroundColor": "#f2f3f4"
-  },
-  "content": {
-    "width": "750",
-    "height": "150",
-    "borderBottomWidth": "1",
-    "alignItems": "center",
-    "justifyContent": "center"
-  },
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start",
-    "alignItems": "center"
-  },
-  "scrollBox": {
-    "width": "750",
-    "justifyContent": "center",
-    "alignItems": "center"
-  },
-  "countBox": {
-    "width": "700",
-    "height": "280",
-    "backgroundColor": "#f24c4c",
-    "borderRadius": "10",
-    "marginTop": "20",
-    "paddingTop": "20",
-    "paddingRight": "30",
-    "paddingBottom": "20",
-    "paddingLeft": "30",
-    "display": "flex",
-    "justifyContent": "center"
-  },
-  "countBox-top": {
-    "display": "flex",
-    "justifyContent": "space-between",
-    "flexDirection": "row",
-    "alignItems": "flex-end",
-    "flex": 1,
-    "borderBottomColor": "#ff6b57",
-    "borderBottomWidth": "1",
-    "borderBottomStyle": "solid",
-    "paddingBottom": "10",
-    "paddingLeft": "10"
-  },
-  "countBox-bottom": {
-    "display": "flex",
-    "flexDirection": "row",
-    "alignItems": "center",
-    "height": "100",
-    "paddingTop": "20",
-    "paddingLeft": "10"
-  },
-  "title": {
-    "fontSize": "22",
-    "color": "#cccccc"
-  },
-  "recive": {
-    "marginRight": "50"
-  },
-  "draw": {
-    "color": "#ffffff",
-    "fontSize": "28",
-    "marginBottom": "15"
-  },
-  "minmoney": {
-    "fontSize": "40",
-    "color": "#ffffff",
-    "marginBottom": "10"
-  },
-  "money": {
-    "fontSize": "52",
-    "color": "#ffffff",
-    "marginTop": "10"
-  },
-  "indicator": {
-    "textAlign": "center"
-  }
-}
-
-/***/ }),
-/* 94 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5851,243 +6988,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _utils = __webpack_require__(1);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _wxcTabPage = __webpack_require__(95);
-
-var _wxcTabPage2 = _interopRequireDefault(_wxcTabPage);
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-var _receiveList = __webpack_require__(101);
-
-var _receiveList2 = _interopRequireDefault(_receiveList);
-
-var _drawCashList = __webpack_require__(105);
-
-var _drawCashList2 = _interopRequireDefault(_drawCashList);
-
-var _refresh = __webpack_require__(20);
-
-var _refresh2 = _interopRequireDefault(_refresh);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var animation = weex.requireModule("animation");
-var modal = weex.requireModule("modal");
-var dom = weex.requireModule("dom");
-exports.default = {
-  components: {
-    refresher: _refresh2.default,
-    navBar: _navBar2.default,
-    ReceiveList: _receiveList2.default,
-    DrawCashList: _drawCashList2.default,
-    WxcTabPage: _wxcTabPage2.default
-  },
-  data: function data() {
-    return {
-      tabTitles: [{
-        title: "收入明细"
-      }, {
-        title: "提现记录"
-      }],
-      tabStyles: {
-        bgColor: "#FFFFFF",
-        titleColor: "#666666",
-        activeTitleColor: "#DA251E",
-        activeBgColor: "#FFFFFF",
-        isActiveTitleBold: true,
-        width: 275,
-        height: 80,
-        fontSize: 28,
-        hasActiveBottom: true,
-        activeBottomColor: "#DA251E",
-        activeBottomHeight: 5,
-        activeBottomWidth: 60,
-        rightOffset: 100,
-        leftOffset: 100
-      },
-      imagePath: "",
-      titleName: "我的账户",
-      realHeight: _utils2.default.env.getScreenHeight(),
-      pageType: 0,
-      tabPageHeight: 80,
-      showLoading: "hide",
-      hint: "",
-      fixedNav: false,
-      goodsList: [{
-        type: 1,
-        title: "2018-10月工资",
-        receiveMoney: "3511.00",
-        createTime: "2018-02-03",
-        status: "已结算",
-        recommended: "李依依"
-      }, {
-        type: 2,
-        title: "复星联合星如意",
-        receiveMoney: "20.00",
-        createTime: "2018-02-03",
-        status: "已结算",
-        premium: "4520.00",
-        settleDate: "2018-10-20"
-      }, {
-        type: 3,
-        title: "2018-10月工资",
-        receiveMoney: "3511.00",
-        createTime: "2018-02-03",
-        status: "已结算",
-        recommended: "李依依"
-      }, {
-        type: 4,
-        title: "复星联合星如意",
-        receiveMoney: "20.00",
-        createTime: "2018-02-03",
-        status: "已结算",
-        premium: "4520.00",
-        settleDate: "2018-10-20"
-      }],
-      drawList: [{
-        date: "2016-11-01",
-        time: "11:12",
-        money: "200.00"
-      }, {
-        date: "2019-11-01",
-        time: "11:12",
-        money: "20.00"
-      }, {
-        date: "2019-11-01",
-        time: "11:12",
-        money: "300.00"
-      }, {
-        date: "2019-11-03",
-        time: "11:12",
-        money: "200.30"
-      }, {
-        date: "2019-11-01",
-        time: "11:12",
-        money: "500.00"
-      }, {
-        date: "2019-11-01",
-        time: "11:12",
-        money: "500.00"
-      }, {
-        date: "2019-11-01",
-        time: "11:12",
-        money: "500.00"
-      }, {
-        date: "2019-11-01",
-        time: "11:12",
-        money: "500.00"
-      }]
-    };
-  },
-
-  created: function created() {
-    this.imagePath = this.getImagePath("count", ".jpg");
-  },
-  methods: {
-    onloading: function onloading() {
-      var _this = this;
-
-      modal.toast({ message: "loading", duration: 0.3 });
-      this.showLoading = "show";
-      setTimeout(function () {
-        // this.goodsList.push(...this.recommend.goods1);
-        _this.showLoading = "hide";
-      }, 300);
-    },
-    onloadmore: function onloadmore() {
-      modal.toast({ message: "loading", duration: 0.3 });
-      setTimeout(function () {
-        // this.goodsList.push(...this.recommend.goods1);
-      }, 100);
-    },
-    loadingDown: function loadingDown() {
-      // this.goodsList = [];
-      // this.goodsList.push(...this.recommend.goods2);
-      // this.goodsList.push(...this.recommend.goods1);
-    },
-    wxcTabPageCurrentTabSelected: function wxcTabPageCurrentTabSelected(e) {
-      var self = this;
-      var index = e.page;
-      self.pageType = index;
-    },
-    scrollHandel: function scrollHandel(e) {}
-  }
-};
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _index = __webpack_require__(96);
+var _index = __webpack_require__(203);
 
 Object.defineProperty(exports, 'default', {
   enumerable: true,
@@ -6099,21 +7000,21 @@ Object.defineProperty(exports, 'default', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 96 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(97)
+__vue_styles__.push(__webpack_require__(204)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(98)
+__vue_exports__ = __webpack_require__(205)
 
 /* template */
-var __vue_template__ = __webpack_require__(100)
+var __vue_template__ = __webpack_require__(207)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6143,7 +7044,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 97 */
+/* 204 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -6183,7 +7084,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 98 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6193,15 +7094,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(4);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _bindEnv = __webpack_require__(99);
+var _bindEnv = __webpack_require__(206);
 
 var _bindEnv2 = _interopRequireDefault(_bindEnv);
 
-var _indexWeex = __webpack_require__(33);
+var _indexWeex = __webpack_require__(201);
 
 var _indexWeex2 = _interopRequireDefault(_indexWeex);
 
@@ -6584,7 +7485,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 99 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6594,11 +7495,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _indexWeex = __webpack_require__(33);
+var _indexWeex = __webpack_require__(201);
 
 var _indexWeex2 = _interopRequireDefault(_indexWeex);
 
-var _index = __webpack_require__(1);
+var _index = __webpack_require__(4);
 
 var _index2 = _interopRequireDefault(_index);
 
@@ -6635,7 +7536,7 @@ var BindEnv = {
 exports.default = BindEnv;
 
 /***/ }),
-/* 100 */
+/* 207 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6739,21 +7640,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 module.exports.render._withStripped = true
 
 /***/ }),
-/* 101 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(102)
+__vue_styles__.push(__webpack_require__(209)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(103)
+__vue_exports__ = __webpack_require__(210)
 
 /* template */
-var __vue_template__ = __webpack_require__(104)
+var __vue_template__ = __webpack_require__(211)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6783,7 +7684,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 102 */
+/* 209 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -6866,7 +7767,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 103 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6958,7 +7859,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 104 */
+/* 211 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -7019,21 +7920,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 module.exports.render._withStripped = true
 
 /***/ }),
-/* 105 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(106)
+__vue_styles__.push(__webpack_require__(213)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(107)
+__vue_exports__ = __webpack_require__(214)
 
 /* template */
-var __vue_template__ = __webpack_require__(108)
+var __vue_template__ = __webpack_require__(215)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -7063,7 +7964,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 106 */
+/* 213 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -7156,7 +8057,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 107 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7211,7 +8112,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 108 */
+/* 215 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -7248,678 +8149,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["iconfont"]
   }, [_vm._v("")])])])
 }]}
-module.exports.render._withStripped = true
-
-/***/ }),
-/* 109 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName,
-      "MainPage": true
-    }
-  }), _c('scroller', {
-    class: ['main-list', _vm.isIpx && _vm.isIpx() ? 'ml-ipx' : ''],
-    attrs: {
-      "offsetAccuracy": "300",
-      "loadmoreoffset": "300"
-    },
-    on: {
-      "loadmore": _vm.onloadmore
-    }
-  }, [_c('refresher', {
-    on: {
-      "loadingDown": _vm.loadingDown
-    }
-  }), _c('div', [_vm._m(0), _c('div', {
-    class: ['navBar', _vm.fixedNav ? 'fixedNav' : '']
-  }, [_c('wxc-tab-page', {
-    ref: "wxc-tab-page",
-    attrs: {
-      "tabTitles": _vm.tabTitles,
-      "tabStyles": _vm.tabStyles,
-      "titleType": "icon",
-      "tabPageHeight": _vm.tabPageHeight
-    },
-    on: {
-      "wxcTabPageCurrentTabSelected": _vm.wxcTabPageCurrentTabSelected
-    }
-  })], 1), (_vm.pageType.toString() == '0') ? _c('ReceiveList', {
-    staticClass: ["receive"],
-    attrs: {
-      "goods": _vm.goodsList
-    }
-  }) : _c('DrawCashList', {
-    attrs: {
-      "goods": _vm.drawList
-    }
-  })], 1), _c('loading', {
-    staticClass: ["loading"],
-    attrs: {
-      "display": _vm.showLoading
-    },
-    on: {
-      "loading": _vm.onloading
-    }
-  }, [_c('text', {
-    staticClass: ["indicator"]
-  }, [_vm._v("...")])])], 1), _c('text', {
-    staticClass: ["hint"]
-  }, [_vm._v(_vm._s(_vm.hint))])], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["scrollBox"]
-  }, [_c('div', {
-    staticClass: ["countBox"]
-  }, [_c('div', {
-    staticClass: ["countBox-top"]
-  }, [_c('div', {}, [_c('text', {
-    staticClass: ["title"]
-  }, [_vm._v("可提现(元)")]), _c('text', {
-    staticClass: ["money"]
-  }, [_vm._v("145.26")])]), _c('div', [_c('text', {
-    staticClass: ["draw"]
-  }, [_vm._v("提现 >")])])]), _c('div', {
-    staticClass: ["countBox-bottom"]
-  }, [_c('div', {
-    staticClass: ["recive"]
-  }, [_c('text', {
-    staticClass: ["minmoney"]
-  }, [_vm._v("4762.90")]), _c('text', {
-    staticClass: ["title"]
-  }, [_vm._v("累计收入(元)")])]), _c('div', [_c('text', {
-    staticClass: ["minmoney"]
-  }, [_vm._v("145.26")]), _c('text', {
-    staticClass: ["title"]
-  }, [_vm._v("结算中(元)")])])])])])
-}]}
-module.exports.render._withStripped = true
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(111)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(112)
-
-/* template */
-var __vue_template__ = __webpack_require__(113)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\salary.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-77cc8480"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "paddingBottom": "100",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var storage = weex.requireModule("storage"); //
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      salaryMonth: "",
-      titleName: "工资"
-    };
-  },
-
-  created: function created() {
-    var _this = this;
-
-    storage.getItem("salaryMonth", function (event) {
-      console.log("get value:", event.data);
-      _this.salaryMonth = "当前月份: " + event.data;
-    });
-  }
-};
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName
-    }
-  }), _c('text', [_vm._v(" " + _vm._s(_vm.salaryMonth))])], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-
-/***/ }),
-/* 114 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(115)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(116)
-
-/* template */
-var __vue_template__ = __webpack_require__(117)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\drawCash.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-400e808d"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "paddingBottom": "100",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      imagePath: "",
-      titleName: "提现"
-    };
-  },
-
-  created: function created() {}
-}; //
-//
-//
-//
-//
-//
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(119)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(120)
-
-/* template */
-var __vue_template__ = __webpack_require__(121)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\recomFee.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-7d9a40a4"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "paddingBottom": "100",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var storage = weex.requireModule("storage"); //
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      salaryMonth: "",
-      titleName: "推荐奖励"
-    };
-  },
-
-  created: function created() {
-    var _this = this;
-
-    storage.getItem("salaryMonth", function (event) {
-      console.log("get value:", event.data);
-      _this.salaryMonth = "当前月份: " + event.data;
-    });
-  }
-};
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName
-    }
-  }), _c('text', [_vm._v(" " + _vm._s(_vm.salaryMonth))])], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(123)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(124)
-
-/* template */
-var __vue_template__ = __webpack_require__(125)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\extendFee.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-e2a150f4"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "paddingBottom": "100",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      salaryMonth: "",
-      titleName: "推广费"
-    };
-  },
-
-  created: function created() {
-    var _this = this;
-
-    storage.getItem("salaryMonth", function (event) {
-      console.log("get value:", event.data);
-      _this.salaryMonth = "当前月份: " + event.data;
-    });
-  }
-}; //
-//
-//
-//
-//
-//
-//
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName
-    }
-  }), _c('text', [_vm._v(" " + _vm._s(_vm.salaryMonth))])], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-
-/***/ }),
-/* 126 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = []
-
-/* styles */
-__vue_styles__.push(__webpack_require__(127)
-)
-
-/* script */
-__vue_exports__ = __webpack_require__(128)
-
-/* template */
-var __vue_template__ = __webpack_require__(129)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "F:\\Workspace\\weex\\appMS\\src\\pages\\userCount\\starSalary.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-163502b2"
-__vue_options__.style = __vue_options__.style || {}
-__vue_styles__.forEach(function (module) {
-  for (var name in module) {
-    __vue_options__.style[name] = module[name]
-  }
-})
-if (typeof __register_static_styles__ === "function") {
-  __register_static_styles__(__vue_options__._scopeId, __vue_styles__)
-}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 127 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  "wrapper": {
-    "flex": 1,
-    "backgroundColor": "#f2f2f2",
-    "paddingBottom": "100",
-    "fontSize": "28",
-    "width": "750",
-    "flexDirection": "column",
-    "justifyContent": "flex-start"
-  }
-}
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _navBar = __webpack_require__(0);
-
-var _navBar2 = _interopRequireDefault(_navBar);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  components: {
-    navBar: _navBar2.default
-  },
-  data: function data() {
-    return {
-      imagePath: "",
-      titleName: "星级工资"
-    };
-  },
-
-  created: function created() {}
-}; //
-//
-//
-//
-//
-//
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('navBar', {
-    attrs: {
-      "title": _vm.titleName
-    }
-  })], 1)
-},staticRenderFns: []}
 module.exports.render._withStripped = true
 
 /***/ })

@@ -24,6 +24,9 @@ import Flash from '@/pages/flash'
 import StartUp from '@/pages/startup'
  
 import Verify from '@/pages/verify'
+import Forget from '@/pages/forget'
+
+
 // import Message from '@/pages/message'
 
 
@@ -104,10 +107,10 @@ export const router = new Router({
         path: '/login',
         component: Login
     },
-    // {
-    //     path: '/salary',
-    //     component: Salary
-    // },
+    {
+        path: '/forget',
+        component: Forget
+    },
     {
         path: '/startUp',
         component: StartUp
